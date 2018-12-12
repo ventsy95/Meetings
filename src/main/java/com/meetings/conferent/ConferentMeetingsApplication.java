@@ -42,19 +42,16 @@ public class ConferentMeetingsApplication {
 		Transaction txn = session.beginTransaction();
 		User user = new User();
 		Site site = new Site();
-		site.setName("Site");
-		site.setLocation("Tam nqkyde");
+		site.setName("Site3");
+		site.setLocation("Tam nqkyde3");
 		session.save(site);
 		Room room = new Room();
 		room.setName("Staq");
 		room.setSite(site);
 		room.setLocation("i tq e tam");
 		session.save(room);
-		user.setAdmin(true);
-		user.setCompany("kompaniqta");
-		user.setFirstName(name);
-		user.setLastName("Marsi");
-		user.setPasscode(EncriptionUtil.encrypt("123444456"));
+		user.setUsername("joro");
+		user.setPassword(EncriptionUtil.encrypt("pass"));
 		session.save(user);
 		txn.commit();
 	}

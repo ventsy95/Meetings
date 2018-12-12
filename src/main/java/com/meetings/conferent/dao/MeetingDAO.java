@@ -77,7 +77,9 @@ public class MeetingDAO implements IMeetingDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Meeting> getMeetingsForRoom(long roomId) {
-		return getCurrentSession().createQuery("from Meeting where roomId="+roomId).list();
+		System.out.println(roomId);
+		return getCurrentSession().createQuery("from Meeting where roomId=?").setParameter(0, roomId)
+				.list();
 	}
 
 	@Override

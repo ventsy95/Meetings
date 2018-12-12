@@ -1,99 +1,100 @@
 package com.meetings.conferent.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import com.meetings.conferent.utils.EncriptionUtil;
 
 @Entity
-@Table(name = "USER", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "passcode") })
-public class User implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true, updatable = false, nullable = false)
-	private long userId;
-
-	@Column(name = "firstName")
+@Table(name = "USERS", catalog = "booking")
+public class User {
+	
 	private String firstName;
-
-	@Column(name = "lastName")
 	private String lastName;
-
-	@Column(name = "passcode", unique = true)
-	private String passcode;
-	
-	@Column(name = "isAdmin")
-	private boolean isAdmin;
-	
-	@Column(name = "company")
-	private String company;
+	private String username;
+	private String password;
+	private boolean enabled;
+	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {
-		super();
 	}
 
-	public User(long userId, String firstName, String lastName, String passcode, boolean isAdmin, String company) throws Exception {
-		this();
-		this.userId = userId;
+	public User(String firstName, String lastName, String username, String password, boolean enabled) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.passcode = EncriptionUtil.encrypt(passcode);
-		this.isAdmin = isAdmin;
-		this.company = company;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
 	}
 
-	public long getUserId() {
-		return userId;
+	public User(String firstName, String lastName, String username, String password, 
+		boolean enabled, Set<UserRole> userRole) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.userRole = userRole;
 	}
 
-	public void setUserId(long id) {
-		this.userId = id;
+	@Id
+	@Column(name = "username", unique = true, 
+		nullable = false, length = 45)
+	public String getUsername() {
+		return this.username;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	@Column(name = "firstName", nullable = false, length = 60)
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
-	public void setFirstName(String first_name) {
-		this.firstName = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
+	@Column(name = "lastName", nullable = false, length = 60)
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
-	public void setLastName(String last_name) {
-		this.lastName = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getPasscode() {
-		return passcode;
+	@Column(name = "password", 
+		nullable = false, length = 60)
+	public String getPassword() {
+		return this.password;
 	}
 
-	public void setPasscode(String passcode) {
-		try {
-			this.passcode = EncriptionUtil.encrypt(passcode);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
+	@Column(name = "enabled", nullable = false)
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public String getCompany() {
-		return company;
+	@OneToMany(mappedBy = "user")
+	public Set<UserRole> getUserRole() {
+		return this.userRole;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setUserRole(Set<UserRole> userRole) {
+		this.userRole = userRole;
 	}
+
 }

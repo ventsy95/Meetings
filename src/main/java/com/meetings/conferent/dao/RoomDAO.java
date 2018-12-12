@@ -70,7 +70,8 @@ public class RoomDAO implements IRoomDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Room> getRoomsForSite(long siteId) {
-		return getCurrentSession().createQuery("from Room where siteId="+siteId).list();
+		return getCurrentSession().createQuery("from Room where siteId=?").setParameter(0, siteId)
+				.list();
 	}
 
 	@Override

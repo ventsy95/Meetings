@@ -54,32 +54,28 @@ public class SiteDAO implements ISiteDAO {
 
 	@Override
 	public void addSite(Site site) {
-		// TODO Auto-generated method stub
-
+		getCurrentSession().save(site);
 	}
 
 	@Override
-	public void updateRoom(Site site) {
-		// TODO Auto-generated method stub
-
+	public void updateSite(Site site) {
+		getCurrentSession().update(site);
 	}
 
 	@Override
-	public void deleteRoom(Site site) {
-		// TODO Auto-generated method stub
-
+	public void deleteSite(Site site) {
+		getCurrentSession().delete(site);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Room> getSites() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Site> getAllSites() {
+		return getCurrentSession().createQuery("from Site").list();
 	}
 
 	@Override
 	public Site findSiteById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return (Site) getCurrentSession().get(Site.class, id);
 	}
 
 }

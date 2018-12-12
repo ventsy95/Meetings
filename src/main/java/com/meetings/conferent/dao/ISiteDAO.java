@@ -7,8 +7,8 @@ import com.meetings.conferent.model.Site;
 
 public interface ISiteDAO {
 	void addSite(Site site);
-	void updateRoom(Site site);
-	void deleteRoom(Site site);
+	void updateSite(Site site);
+	void deleteSite(Site site);
 	Site findSiteById(long id);
-	List<Room> getSites();
+	List<Site> getAllSites();
 }

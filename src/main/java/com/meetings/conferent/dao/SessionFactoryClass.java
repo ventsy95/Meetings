@@ -10,6 +10,7 @@ import com.meetings.conferent.model.Meeting;
 import com.meetings.conferent.model.Room;
 import com.meetings.conferent.model.Site;
 import com.meetings.conferent.model.User;
+import com.meetings.conferent.model.UserRole;
 
 public class SessionFactoryClass {
 
@@ -28,7 +29,7 @@ public class SessionFactoryClass {
 	private static SessionFactory configureSessionFactory() throws HibernateException {
 		Configuration configuration = new Configuration();
 		configuration.addAnnotatedClass(User.class).addAnnotatedClass(Meeting.class).addAnnotatedClass(Room.class)
-				.addAnnotatedClass(Site.class).configure();
+				.addAnnotatedClass(Site.class).addAnnotatedClass(UserRole.class).configure();
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		return sessionFactory;
