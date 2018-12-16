@@ -9,7 +9,7 @@ import javax.persistence.*;
 import com.meetings.conferent.utils.EncriptionUtil;
 
 @Entity
-@Table(name = "USERS", catalog = "booking")
+@Table(name = "USER", catalog = "booking")
 public class User {
 	
 	private String firstName;
