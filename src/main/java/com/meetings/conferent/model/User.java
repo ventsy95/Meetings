@@ -11,18 +11,34 @@ import com.meetings.conferent.utils.EncriptionUtil;
 @Entity
 @Table(name = "USER", catalog = "booking")
 public class User {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, updatable = false, nullable = false)
+	private long userId;
 	
+	@Column(name = "firstName", nullable = false, length = 60)
 	private String firstName;
+	
+	@Column(name = "lastName", nullable = false, length = 60)
 	private String lastName;
+	
+	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
+	
+	@Column(name = "password", nullable = false, length = 60)
 	private String password;
+
+	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
+	
+	@OneToMany(mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {
 	}
 
-	public User(String firstName, String lastName, String username, String password, boolean enabled) {
+	public User(long userId, String firstName, String lastName, String username, String password, boolean enabled) {
+		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -30,8 +46,9 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public User(String firstName, String lastName, String username, String password, 
-		boolean enabled, Set<UserRole> userRole) {
+	public User(long userId, String firstName, String lastName, String username, String password, boolean enabled,
+			Set<UserRole> userRole) {
+		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -40,9 +57,14 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	@Id
-	@Column(name = "username", unique = true, 
-		nullable = false, length = 45)
+	public long getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(long id) {
+		this.userId = id;
+	}
+
 	public String getUsername() {
 		return this.username;
 	}
@@ -50,8 +72,7 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	@Column(name = "firstName", nullable = false, length = 60)
+
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -60,7 +81,6 @@ public class User {
 		this.firstName = firstName;
 	}
 
-	@Column(name = "lastName", nullable = false, length = 60)
 	public String getLastName() {
 		return this.lastName;
 	}
@@ -69,8 +89,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	@Column(name = "password", 
-		nullable = false, length = 60)
 	public String getPassword() {
 		return this.password;
 	}
@@ -79,7 +97,6 @@ public class User {
 		this.password = password;
 	}
 
-	@Column(name = "enabled", nullable = false)
 	public boolean isEnabled() {
 		return this.enabled;
 	}
@@ -88,7 +105,6 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	@OneToMany(mappedBy = "user")
 	public Set<UserRole> getUserRole() {
 		return this.userRole;
 	}

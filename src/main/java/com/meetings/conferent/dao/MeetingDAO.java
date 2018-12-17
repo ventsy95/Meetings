@@ -78,7 +78,7 @@ public class MeetingDAO implements IMeetingDAO {
 	@Override
 	public List<Meeting> getMeetingsForRoom(long roomId) {
 		System.out.println(roomId);
-		return getCurrentSession().createQuery("from Meeting where roomId=?").setParameter(0, roomId)
+		return getCurrentSession().createQuery("from Meeting where roomId= :roomId").setParameter("roomId", roomId)
 				.list();
 	}
 

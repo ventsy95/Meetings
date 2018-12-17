@@ -1,5 +1,6 @@
 package com.meetings.conferent.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +65,8 @@ public class MeetingService {
 		List<Meeting> currentMeetings = meetingDao.getMeetingsForRoom(meeting.getRoom().getRoomId());
 		if (meeting.getStartDate() != null && meeting.getEndDate() != null) {
 			for (Meeting existMeeting : currentMeetings) {
-				if (existMeeting.getStartDate() != null && existMeeting.getEndDate() != null && meeting.getMeetingId() != existMeeting.getMeetingId()) {
+				if (existMeeting.getStartDate() != null && existMeeting.getEndDate() != null
+						&& meeting.getMeetingId() != existMeeting.getMeetingId()) {
 					if (meeting.getStartDate().getTime() >= existMeeting.getStartDate().getTime()
 							&& meeting.getStartDate().getTime() < existMeeting.getEndDate().getTime()) {
 						return true;

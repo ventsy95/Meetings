@@ -1,5 +1,6 @@
 package com.meetings.conferent.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -21,14 +22,14 @@ public class RoomService {
 
 	public void update(Room room) {
 		roomDao.openCurrentSessionWithTransaction();
-			roomDao.updateRoom(room);
-			roomDao.closeCurrentSessionWithTransaction();
+		roomDao.updateRoom(room);
+		roomDao.closeCurrentSessionWithTransaction();
 	}
 
 	public void insert(Room room) {
 		roomDao.openCurrentSessionWithTransaction();
-			roomDao.addRoom(room);
-			roomDao.closeCurrentSessionWithTransaction();
+		roomDao.addRoom(room);
+		roomDao.closeCurrentSessionWithTransaction();
 	}
 
 	public Room findById(long id) {
