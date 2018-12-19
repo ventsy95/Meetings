@@ -40,6 +40,7 @@ public class ConferentMeetingsApplication {
 			System.out.println(meeting.getTitle());
 		}
 		context.close();*/
+		//saveStuff("sdasf");
 		//saveUser("Joro");
 	}
 	
@@ -60,7 +61,7 @@ public class ConferentMeetingsApplication {
 		user.setFirstName("Georgi");
 		user.setLastName("Georgev");
 		user.setEnabled(true);
-		user.setPassword(EncriptionUtil.encrypt("pass"));
+		user.setPassword(new BCryptPasswordEncoder().encode("pass"));
 		session.save(user);
 		txn.commit();
 	}

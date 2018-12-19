@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -44,5 +45,11 @@ public class UserController {
 		} catch(UsernameNotFoundException ex) {
 			return false;
 		}
+	}
+	
+	@GetMapping("/user/{username}")
+	public Object getUserByUsername(@PathVariable String username) {
+		User user = userDetailsService.getUserByUsername(username);
+		return user;
 	}
 }

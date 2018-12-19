@@ -6,10 +6,11 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meetings.conferent.utils.EncriptionUtil;
 
 @Entity
-@Table(name = "USER", catalog = "booking")
+@Table(name = "USER", catalog = "booking", uniqueConstraints = { @UniqueConstraint(columnNames = "id"), @UniqueConstraint(columnNames = "username") })
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,12 +27,15 @@ public class User {
 	private String username;
 	
 	@Column(name = "password", nullable = false, length = 60)
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "enabled", nullable = false)
+	@JsonIgnore
 	private boolean enabled;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {

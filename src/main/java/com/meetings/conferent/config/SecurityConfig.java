@@ -30,8 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and()
-				.authorizeRequests().anyRequest().fullyAuthenticated().and().httpBasic().and().authorizeRequests().antMatchers(HttpMethod.GET, "/meetings/**").permitAll().anyRequest().anonymous();
+		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		.and().authorizeRequests().antMatchers(HttpMethod.GET, "/meetings/**").permitAll().anyRequest().anonymous();
+		http.csrf().disable().authorizeRequests().anyRequest().fullyAuthenticated().and().httpBasic();
 		// http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated().and().authorizeRequests().antMatchers("/meetings").permitAll().anyRequest().authenticated().and().authorizeRequests().antMatchers("/rooms").permitAll().anyRequest().authenticated();
 		/*
 		 * http.authorizeRequests().antMatchers("/admin/**").access(

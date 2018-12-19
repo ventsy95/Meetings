@@ -56,7 +56,7 @@ public class MeetingDAO implements IMeetingDAO {
 
 	@Override
 	public void addMeeting(Meeting meeting) {
-		getCurrentSession().save(meeting);
+		getCurrentSession().persist(meeting);
 	}
 
 	@Override

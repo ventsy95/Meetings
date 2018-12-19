@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meetings.conferent.model.Meeting;
+import com.meetings.conferent.model.Room;
 import com.meetings.conferent.service.MeetingService;
+import com.meetings.conferent.service.MyUserDetailsService;
+import com.meetings.conferent.service.RoomService;
 
 @CrossOrigin
 @RestController
@@ -31,6 +35,10 @@ public class MeetingController {
 
 	@Autowired
 	private MeetingService meetService;
+	@Autowired
+	private MyUserDetailsService userService;
+	@Autowired
+	private RoomService roomService;
 
 	@GetMapping("/meetings/{roomId}")
 	List<Meeting> allMeetings(@PathVariable long roomId) {
@@ -38,7 +46,13 @@ public class MeetingController {
 	}
 
 	@PostMapping("/meetings")
+	@ResponseStatus(value = HttpStatus.OK)
 	Object newMeeting(@RequestBody Meeting newMeeting) {
+		if (newMeeting != null && newMeeting.getOwner() != null && newMeeting.getOwner().getUsername() != null) {
+			System.out.println(newMeeting.getOwner().getUsername());
+			System.out.println(userService.getUserByUsername(newMeeting.getOwner().getUsername()));
+			newMeeting.setOwner(userService.getUserByUsername(newMeeting.getOwner().getUsername()));
+		}
 		boolean result = meetService.insert(newMeeting);
 		if (result) {
 			return newMeeting;

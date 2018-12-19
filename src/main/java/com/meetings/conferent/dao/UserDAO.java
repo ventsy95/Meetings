@@ -82,7 +82,7 @@ public class UserDAO implements IUserDAO {
 
 		List<User> users = new ArrayList<User>();
 
-		users = getCurrentSession().createQuery("from User where username=?").setParameter(0, username).list();
+		users = getCurrentSession().createQuery("from User where username= :username").setParameter("username", username).list();
 
 		if (users.size() > 0) {
 			return users.get(0);

@@ -31,7 +31,19 @@ public class MyUserDetailsService implements UserDetailsService {
 			userDao.closeCurrentSessionWithTransaction();
 			return buildUserForAuthentication(user, authorities);
 		} else {
+			userDao.closeCurrentSessionWithTransaction();
 			throw new UsernameNotFoundException("User with such username does not exist.");
+		}
+	}
+	
+	public com.meetings.conferent.model.User getUserByUsername(final String username) {
+		userDao.openCurrentSessionWithTransaction();
+		com.meetings.conferent.model.User user = userDao.findByUserName(username);
+		userDao.closeCurrentSessionWithTransaction();
+		if (user != null) {
+			return user;
+		}else {
+			return null;
 		}
 	}
 
