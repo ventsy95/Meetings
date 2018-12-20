@@ -57,7 +57,7 @@ public class MeetingController {
 		if (result) {
 			return newMeeting;
 		} else {
-			return "Timeslot is taken";
+			return new ResponseEntity<>(HttpStatus.IM_USED);
 		}
 	}
 
@@ -67,11 +67,11 @@ public class MeetingController {
 		if (result) {
 			return meeting;
 		}
-		return "Timeslot is taken";
+		return new ResponseEntity<>(HttpStatus.IM_USED);
 	}
 
-	@DeleteMapping("/meetings")
-	void deleteMeeting(@RequestParam long meetingId) {
+	@DeleteMapping("/meetings/{meetingId}")
+	void deleteMeeting(@PathVariable long meetingId) {
 		meetService.delete(meetingId);
 	}
 }
