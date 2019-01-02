@@ -28,6 +28,11 @@ public class RoomController {
 	List<Room> allRoomsForSite(@PathVariable long siteId) {
 		return roomService.getRoomsForSite(siteId);
 	}
+	
+	@GetMapping("/room/{roomId}")
+	Room getRoomById(@PathVariable long roomId) {
+		return roomService.findById(roomId);
+	}
 
 	@PostMapping("/rooms")
 	Object newRoom(@RequestBody Room newRoom) {

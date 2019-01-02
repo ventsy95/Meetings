@@ -62,7 +62,6 @@ public class MeetingService {
 	}
 
 	private boolean isTimeslotTaken(Meeting meeting) {
-		System.out.println(meeting.getRoom());
 		List<Meeting> currentMeetings = meetingDao.getMeetingsForRoom(meeting.getRoom().getRoomId());
 		if (meeting.getStartDate() != null && meeting.getEndDate() != null) {
 			for (Meeting existMeeting : currentMeetings) {
