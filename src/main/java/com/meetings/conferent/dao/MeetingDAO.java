@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import com.meetings.conferent.model.Meeting;
+import com.meetings.conferent.model.Room;
 
 @Repository
 public class MeetingDAO implements IMeetingDAO {
@@ -60,13 +61,23 @@ public class MeetingDAO implements IMeetingDAO {
 	}
 
 	@Override
-	public void updateMeeting(long id, Date startDate, Date endDate) {
-		Query query = getCurrentSession().createQuery("update Meeting set startDate = :startDate, endDate = :endDate" +
+	public void updateMeeting(long id, Date startDate, Date endDate, boolean isStarted) {
+		Query query = getCurrentSession().createQuery("update Meeting set startDate = :startDate, endDate = :endDate, isStarted = :isStarted" +
 				" where id = :id");
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
+		query.setParameter("isStarted", isStarted);
 		query.setParameter("id", id);
 		int result = query.executeUpdate();
+	}
+	
+	@Override
+	public void updateMeetingStatus(long id, boolean isStarted) {
+		Meeting meeting = (Meeting) getCurrentSession().get(Meeting.class, id);
+		if(meeting.isStarted() != isStarted) {
+			meeting.setStarted(isStarted);
+			getCurrentSession().update(meeting);
+		}
 	}
 
 	@Override
@@ -77,7 +88,6 @@ public class MeetingDAO implements IMeetingDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Meeting> getMeetingsForRoom(long roomId) {
-		System.out.println(roomId);
 		return getCurrentSession().createQuery("from Meeting where roomId= :roomId").setParameter("roomId", roomId)
 				.list();
 	}

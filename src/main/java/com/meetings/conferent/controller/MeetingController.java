@@ -49,8 +49,6 @@ public class MeetingController {
 	@ResponseStatus(value = HttpStatus.OK)
 	Object newMeeting(@RequestBody Meeting newMeeting) {
 		if (newMeeting != null && newMeeting.getOwner() != null && newMeeting.getOwner().getUsername() != null) {
-			System.out.println(newMeeting.getOwner().getUsername());
-			System.out.println(userService.getUserByUsername(newMeeting.getOwner().getUsername()));
 			newMeeting.setOwner(userService.getUserByUsername(newMeeting.getOwner().getUsername()));
 		}
 		boolean result = meetService.insert(newMeeting);
@@ -69,10 +67,18 @@ public class MeetingController {
 		}
 		return new ResponseEntity<>(HttpStatus.IM_USED);
 	}
+	
+	@PutMapping("/meetings/{meetingId}")
+	Object updateMeetingStatus(@PathVariable long meetingId, @RequestBody boolean isStarted) {
+		boolean result = meetService.updateMeetingStatus(meetingId, isStarted);
+		if (result) {
+			return meetingId;
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
 	@DeleteMapping("/meetings/{meetingId}")
 	long deleteMeeting(@PathVariable long meetingId) {
-		System.out.println("MEETING ID: " + meetingId);
 		meetService.delete(meetingId);
 		return meetingId;
 	}

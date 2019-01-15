@@ -22,12 +22,19 @@ public class MeetingService {
 	public boolean update(Meeting meeting) {
 		meetingDao.openCurrentSessionWithTransaction();
 		if (!isTimeslotTaken(meeting)) {
-			meetingDao.updateMeeting(meeting.getMeetingId(), meeting.getStartDate(), meeting.getEndDate());
+			meetingDao.updateMeeting(meeting.getMeetingId(), meeting.getStartDate(), meeting.getEndDate(), meeting.isStarted());
 			meetingDao.closeCurrentSessionWithTransaction();
 			return true;
 		}
 		meetingDao.closeCurrentSessionWithTransaction();
 		return false;
+	}
+
+	public boolean updateMeetingStatus(long id, boolean status) {
+		meetingDao.openCurrentSessionWithTransaction();
+		meetingDao.updateMeetingStatus(id, status);
+		meetingDao.closeCurrentSessionWithTransaction();
+		return true;
 	}
 
 	public boolean insert(Meeting meeting) {
@@ -85,14 +92,14 @@ public class MeetingService {
 		}
 		return false;
 	}
-	
+
 	private boolean isSameDay(Calendar date1, Calendar date2) {
 		if(date1.get(Calendar.DAY_OF_MONTH) == date2.get(Calendar.DAY_OF_MONTH) && date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH) && date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	private Calendar toCalendar(Date date){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);

@@ -73,6 +73,15 @@ public class RoomDAO implements IRoomDAO {
 		return getCurrentSession().createQuery("from Room where siteId= :siteId").setParameter("siteId", siteId)
 				.list();
 	}
+	
+	@Override
+	public void updateRoomOccupationById(long id, boolean isOccupied) {
+		Room room = (Room) getCurrentSession().get(Room.class, id);
+		if(room.isPicked() != isOccupied) {
+			room.setPicked(isOccupied);
+			getCurrentSession().update(room);
+		}
+	}
 
 	@Override
 	public Room findRoomById(long id) {

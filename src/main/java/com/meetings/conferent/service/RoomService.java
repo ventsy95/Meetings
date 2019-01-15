@@ -25,6 +25,12 @@ public class RoomService {
 		roomDao.updateRoom(room);
 		roomDao.closeCurrentSessionWithTransaction();
 	}
+	
+	public void updateRoomOccupationById(long id, boolean isPicked) {
+		roomDao.openCurrentSessionWithTransaction();
+		roomDao.updateRoomOccupationById(id, isPicked);
+		roomDao.closeCurrentSessionWithTransaction();
+	}
 
 	public void insert(Room room) {
 		roomDao.openCurrentSessionWithTransaction();

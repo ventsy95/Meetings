@@ -45,6 +45,12 @@ public class RoomController {
 		roomService.update(room);
 		return room;
 	}
+	
+	@PutMapping("/rooms/{roomId}")
+	long updateRoomOccupationById(@PathVariable long roomId, @RequestBody boolean isPicked) {
+		roomService.updateRoomOccupationById(roomId, isPicked);
+		return roomId;
+	}
 
 	@DeleteMapping("/rooms/{roomId}")
 	long deleteRoom(@PathVariable long roomId) {
