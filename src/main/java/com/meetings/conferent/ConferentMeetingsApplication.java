@@ -48,7 +48,9 @@ public class ConferentMeetingsApplication {
 		Session session = SessionFactoryClass.getSessionFactoryInstance().openSession();
 		Transaction txn = session.beginTransaction();
 		User user = new User();
-		Site site = new Site();
+		User user2 = new User();
+		User user3 = new User();
+		/*Site site = new Site();
 		site.setName("Site3");
 		site.setLocation("Tam nqkyde3");
 		session.save(site);
@@ -56,13 +58,25 @@ public class ConferentMeetingsApplication {
 		room.setName("Staq");
 		room.setSite(site);
 		room.setLocation("i tq e tam");
-		session.save(room);
+		session.save(room);*/
 		user.setUsername("joro");
 		user.setFirstName("Georgi");
 		user.setLastName("Georgev");
 		user.setEnabled(true);
 		user.setPassword(new BCryptPasswordEncoder().encode("pass"));
 		session.save(user);
+		user2.setUsername("joro2");
+		user2.setFirstName("Georgi");
+		user2.setLastName("Georgev");
+		user2.setEnabled(true);
+		user2.setPassword(new BCryptPasswordEncoder().encode("pass"));
+		session.save(user2);
+		user3.setUsername("joro3");
+		user3.setFirstName("Georgi");
+		user3.setLastName("Georgev");
+		user3.setEnabled(true);
+		user3.setPassword(new BCryptPasswordEncoder().encode("pass"));
+		session.save(user3);
 		txn.commit();
 	}
 	

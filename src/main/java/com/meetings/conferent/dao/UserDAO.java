@@ -68,12 +68,26 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void deleteUser(User user) {
-		getCurrentSession().delete(user);
+		if(getCurrentSession() != null && getCurrentSession().isOpen()) {
+			getCurrentSession().delete(user);
+		}else {
+			openCurrentSession().delete(user);
+		}
 	}
 
 	@Override
 	public User findById(long id) {
 		return (User) getCurrentSession().get(User.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsers() {
+		if(getCurrentSession() != null && getCurrentSession().isOpen()) {
+			return getCurrentSession().createQuery("from User").list();
+		}else {
+			return openCurrentSession().createQuery("from User").list();
+		}
 	}
 
 	@Override

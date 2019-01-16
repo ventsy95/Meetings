@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.meetings.conferent.dao.MeetingDAO;
 import com.meetings.conferent.dao.UserDAO;
 import com.meetings.conferent.model.UserRole;
 
@@ -22,6 +23,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserDAO userDao;
+	
+	@Autowired
+	private MeetingDAO meetingDao;
 
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		userDao.openCurrentSessionWithTransaction();
@@ -45,6 +49,22 @@ public class MyUserDetailsService implements UserDetailsService {
 		}else {
 			return null;
 		}
+	}
+	
+	public List<com.meetings.conferent.model.User> getUsers() {
+		userDao.openCurrentSessionWithTransaction();
+		List<com.meetings.conferent.model.User> users = userDao.getUsers();
+		userDao.closeCurrentSessionWithTransaction();
+		return users;
+	}
+	
+	public com.meetings.conferent.model.User deleteUser(long userId) {
+		userDao.openCurrentSessionWithTransaction();
+		com.meetings.conferent.model.User user = userDao.findById(userId);
+		meetingDao.deleteMeetingsForUser(userId);
+		userDao.deleteUser(user);
+		userDao.closeCurrentSessionWithTransaction();
+		return user;
 	}
 
 	private User buildUserForAuthentication(com.meetings.conferent.model.User user,

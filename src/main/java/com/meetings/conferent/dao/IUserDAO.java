@@ -1,5 +1,7 @@
 package com.meetings.conferent.dao;
 
+import java.util.List;
+
 import com.meetings.conferent.model.User;
 
 public interface IUserDAO {
@@ -8,4 +10,5 @@ public interface IUserDAO {
 	void deleteUser(User user);
 	User findById(long id);
 	User findByUserName(String username);
+	List<User> getUsers();
 }

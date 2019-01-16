@@ -16,44 +16,48 @@ import com.meetings.conferent.model.Room;
 
 @Repository
 public class MeetingDAO implements IMeetingDAO {
-	
+
 	private Session currentSession;
-    private Transaction currentTransaction;
-    
-    public MeetingDAO(){}
+	private Transaction currentTransaction;
 
-    public Session openCurrentSession() {
-        currentSession = getSessionFactoryInstance().openSession();
-        return  currentSession;
-    }
-    public Session openCurrentSessionWithTransaction(){
-        currentSession = getSessionFactoryInstance().openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-    public void closeCurrentSession(){
-        currentSession.close();
-    }
-    public void closeCurrentSessionWithTransaction(){
-        currentTransaction.commit();
-        currentSession.close();
-    }
+	public MeetingDAO() {
+	}
 
-    public Session getCurrentSession(){
-        return currentSession;
-    }
+	public Session openCurrentSession() {
+		currentSession = getSessionFactoryInstance().openSession();
+		return currentSession;
+	}
 
-    public void setCurrentSession(Session currentSession){
-        this.currentSession = currentSession;
-    }
+	public Session openCurrentSessionWithTransaction() {
+		currentSession = getSessionFactoryInstance().openSession();
+		currentTransaction = currentSession.beginTransaction();
+		return currentSession;
+	}
 
-    public Transaction getCurrentTransaction(){
-        return currentTransaction;
-    }
+	public void closeCurrentSession() {
+		currentSession.close();
+	}
 
-    public void setCurrentTransaction(Transaction currentTransaction){
-        this.currentTransaction = currentTransaction;
-    }
+	public void closeCurrentSessionWithTransaction() {
+		currentTransaction.commit();
+		currentSession.close();
+	}
+
+	public Session getCurrentSession() {
+		return currentSession;
+	}
+
+	public void setCurrentSession(Session currentSession) {
+		this.currentSession = currentSession;
+	}
+
+	public Transaction getCurrentTransaction() {
+		return currentTransaction;
+	}
+
+	public void setCurrentTransaction(Transaction currentTransaction) {
+		this.currentTransaction = currentTransaction;
+	}
 
 	@Override
 	public void addMeeting(Meeting meeting) {
@@ -62,19 +66,20 @@ public class MeetingDAO implements IMeetingDAO {
 
 	@Override
 	public void updateMeeting(long id, Date startDate, Date endDate, boolean isStarted) {
-		Query query = getCurrentSession().createQuery("update Meeting set startDate = :startDate, endDate = :endDate, isStarted = :isStarted" +
-				" where id = :id");
+		Query query = getCurrentSession()
+				.createQuery("update Meeting set startDate = :startDate, endDate = :endDate, isStarted = :isStarted"
+						+ " where id = :id");
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
 		query.setParameter("isStarted", isStarted);
 		query.setParameter("id", id);
 		int result = query.executeUpdate();
 	}
-	
+
 	@Override
 	public void updateMeetingStatus(long id, boolean isStarted) {
 		Meeting meeting = (Meeting) getCurrentSession().get(Meeting.class, id);
-		if(meeting.isStarted() != isStarted) {
+		if (meeting.isStarted() != isStarted) {
 			meeting.setStarted(isStarted);
 			getCurrentSession().update(meeting);
 		}
@@ -83,6 +88,17 @@ public class MeetingDAO implements IMeetingDAO {
 	@Override
 	public void deleteMeeting(Meeting meeting) {
 		getCurrentSession().delete(meeting);
+	}
+
+	@Override
+	public void deleteMeetingsForUser(long userId) {
+		if (getCurrentSession() != null && getCurrentSession().isOpen()) {
+			getCurrentSession().createQuery("delete from Meeting where ownerId = :ownerId")
+					.setParameter("ownerId", userId).executeUpdate();
+		} else {
+			openCurrentSession().createQuery("delete from Meeting where ownerId = :ownerId")
+					.setParameter("ownerId", userId).executeUpdate();
+		}
 	}
 
 	@SuppressWarnings("unchecked")

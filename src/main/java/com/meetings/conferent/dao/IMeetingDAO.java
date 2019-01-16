@@ -10,6 +10,7 @@ public interface IMeetingDAO {
 	void updateMeeting(long id, Date startDate, Date endDate, boolean isStarted);
 	void updateMeetingStatus(long id, boolean isStarted);
 	void deleteMeeting(Meeting meeting);
+	void deleteMeetingsForUser(long userId);
 	Meeting findMeetingById(long id);
 	List<Meeting> getMeetingsForRoom(long roomId);
 }
