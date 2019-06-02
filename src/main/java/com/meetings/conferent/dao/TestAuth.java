@@ -1,11 +1,9 @@
 package com.meetings.conferent.dao;
 
-import java.nio.charset.Charset;
-
 import org.apache.commons.codec.binary.Base64;
 
 public class TestAuth {
-	
+
 	public static void main(String[] args) {
 		String plainCreds = "joro2:password";
 		byte[] plainCredsBytes = plainCreds.getBytes();

@@ -1,6 +1,5 @@
 package com.meetings.conferent.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meetings.conferent.model.Room;
@@ -28,7 +26,7 @@ public class RoomController {
 	List<Room> allRoomsForSite(@PathVariable long siteId) {
 		return roomService.getRoomsForSite(siteId);
 	}
-	
+
 	@GetMapping("/room/{roomId}")
 	Room getRoomById(@PathVariable long roomId) {
 		return roomService.findById(roomId);
@@ -45,7 +43,7 @@ public class RoomController {
 		roomService.update(room);
 		return room;
 	}
-	
+
 	@PutMapping("/rooms/{roomId}")
 	long updateRoomOccupationById(@PathVariable long roomId, @RequestBody boolean isPicked) {
 		roomService.updateRoomOccupationById(roomId, isPicked);

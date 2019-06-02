@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.meetings.conferent.dao.MeetingDAO;
@@ -23,9 +24,29 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserDAO userDao;
-	
+
 	@Autowired
 	private MeetingDAO meetingDao;
+
+	public boolean registerUser(com.meetings.conferent.model.User user) {
+		if (getUserByUsername(user.getUsername()) == null) {
+			userDao.openCurrentSessionWithTransaction();
+			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+			user.setEnabled(true);
+			userDao.addUser(user);
+			Set<UserRole> userRoles = new HashSet<UserRole>();
+			UserRole role = new UserRole();
+			role.setUser(user);
+			role.setRole("USER");
+			userRoles.add(role);
+			userDao.addUserRole(role);
+			user.setUserRole(userRoles);
+			userDao.updateUser(user);
+			userDao.closeCurrentSessionWithTransaction();
+			return true;
+		}
+		return false;
+	}
 
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		userDao.openCurrentSessionWithTransaction();
@@ -39,25 +60,25 @@ public class MyUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User with such username does not exist.");
 		}
 	}
-	
+
 	public com.meetings.conferent.model.User getUserByUsername(final String username) {
 		userDao.openCurrentSessionWithTransaction();
 		com.meetings.conferent.model.User user = userDao.findByUserName(username);
 		userDao.closeCurrentSessionWithTransaction();
 		if (user != null) {
 			return user;
-		}else {
+		} else {
 			return null;
 		}
 	}
-	
+
 	public List<com.meetings.conferent.model.User> getUsers() {
 		userDao.openCurrentSessionWithTransaction();
 		List<com.meetings.conferent.model.User> users = userDao.getUsers();
 		userDao.closeCurrentSessionWithTransaction();
 		return users;
 	}
-	
+
 	public com.meetings.conferent.model.User deleteUser(long userId) {
 		userDao.openCurrentSessionWithTransaction();
 		com.meetings.conferent.model.User user = userDao.findById(userId);

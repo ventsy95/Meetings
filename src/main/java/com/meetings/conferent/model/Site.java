@@ -11,54 +11,58 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SITE", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "name") })
-public class Site implements Serializable{
-		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
-		@Column(name = "id", unique = true, updatable = false, nullable = false)
-		private long siteId;
+@Table(name = "SITE", uniqueConstraints = { @UniqueConstraint(columnNames = "id"),
+		@UniqueConstraint(columnNames = "name") })
+public class Site implements Serializable {
+	/**
+	* 
+	*/
+	private static final long serialVersionUID = -2196247965544609572L;
 
-		@Column(name = "name", unique = true)
-		private String name;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true, updatable = false, nullable = false)
+	private long siteId;
 
-		@Column(name = "location")
-		private String location;
-		
-		public Site() {
-			super();
-		}
+	@Column(name = "name", unique = true)
+	private String name;
 
-		public Site(long siteId, String name, String location) {
-			this();
-			this.siteId = siteId;
-			this.name = name;
-			this.location = location;
-		}
+	@Column(name = "location")
+	private String location;
 
-		public long getSiteId() {
-			return siteId;
-		}
+	public Site() {
+		super();
+	}
 
-		public void setSiteId(long siteId) {
-			this.siteId = siteId;
-		}
+	public Site(long siteId, String name, String location) {
+		this();
+		this.siteId = siteId;
+		this.name = name;
+		this.location = location;
+	}
 
-		public String getName() {
-			return name;
-		}
+	public long getSiteId() {
+		return siteId;
+	}
 
-		public void setName(String name) {
-			this.name = name;
-		}
+	public void setSiteId(long siteId) {
+		this.siteId = siteId;
+	}
 
-		public String getLocation() {
-			return location;
-		}
+	public String getName() {
+		return name;
+	}
 
-		public void setLocation(String location) {
-			this.location = location;
-		}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
 }

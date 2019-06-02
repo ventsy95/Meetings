@@ -1,39 +1,39 @@
 package com.meetings.conferent.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.meetings.conferent.utils.EncriptionUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "USER", catalog = "booking", uniqueConstraints = { @UniqueConstraint(columnNames = "id"), @UniqueConstraint(columnNames = "username") })
+@Table(name = "USER", catalog = "booking", uniqueConstraints = { @UniqueConstraint(columnNames = "id"),
+		@UniqueConstraint(columnNames = "username") })
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, updatable = false)
 	private long userId;
-	
+
 	@Column(name = "firstName", nullable = false, length = 60)
 	private String firstName;
-	
+
 	@Column(name = "lastName", nullable = false, length = 60)
 	private String lastName;
-	
+
 	@Column(name = "username", unique = true, nullable = false, length = 45)
 	private String username;
 	
-	@Column(name = "password", nullable = false, length = 60)
-	@JsonIgnore
+	@Column(name = "password", length = 60)
 	private String password;
 
 	@Column(name = "enabled", nullable = false)
 	@JsonIgnore
 	private boolean enabled;
-	
+
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
@@ -93,6 +93,8 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore
+	@JsonProperty(value = "password")
 	public String getPassword() {
 		return this.password;
 	}
@@ -117,4 +119,9 @@ public class User {
 		this.userRole = userRole;
 	}
 
+	@Override
+	public String toString() {
+		return this.firstName + ", " + this.lastName + ", " + this.userId + ", " + this.username + ", " + this.password
+				+ ", " + this.userRole.toArray(new UserRole[0]);
+	}
 }

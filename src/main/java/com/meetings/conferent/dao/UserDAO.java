@@ -4,8 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import com.meetings.conferent.model.Site;
 import com.meetings.conferent.model.User;
+import com.meetings.conferent.model.UserRole;
 
 import static com.meetings.conferent.dao.SessionFactoryClass.getSessionFactoryInstance;
 
@@ -61,6 +61,11 @@ public class UserDAO implements IUserDAO {
 		getCurrentSession().save(user);
 	}
 
+	// @Override
+	public void addUserRole(UserRole role) {
+		getCurrentSession().save(role);
+	}
+
 	@Override
 	public void updateUser(User user) {
 		getCurrentSession().update(user);
@@ -68,26 +73,29 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void deleteUser(User user) {
-		if(getCurrentSession() != null && getCurrentSession().isOpen()) {
+		if (getCurrentSession() != null && getCurrentSession().isOpen()) {
 			getCurrentSession().delete(user);
-		}else {
+		} else {
 			openCurrentSession().delete(user);
 		}
 	}
 
 	@Override
 	public User findById(long id) {
-		return (User) getCurrentSession().get(User.class, id);
+		User user = (User) getCurrentSession().get(User.class, id);
+		return user;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers() {
-		if(getCurrentSession() != null && getCurrentSession().isOpen()) {
-			return getCurrentSession().createQuery("from User").list();
-		}else {
-			return openCurrentSession().createQuery("from User").list();
+		List<User> users = new ArrayList<>();
+		if (getCurrentSession() != null && getCurrentSession().isOpen()) {
+			users = getCurrentSession().createQuery("from User").list();
+		} else {
+			users = openCurrentSession().createQuery("from User").list();
 		}
+		return users;
 	}
 
 	@Override
@@ -96,10 +104,12 @@ public class UserDAO implements IUserDAO {
 
 		List<User> users = new ArrayList<User>();
 
-		users = getCurrentSession().createQuery("from User where username= :username").setParameter("username", username).list();
+		users = getCurrentSession().createQuery("from User where username= :username")
+				.setParameter("username", username).list();
 
 		if (users.size() > 0) {
-			return users.get(0);
+			User user = users.get(0);
+			return user;
 		} else {
 			return null;
 		}

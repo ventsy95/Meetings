@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/register").permitAll();
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, "/meetings/**").permitAll().anyRequest().anonymous();
 		http.csrf().disable().authorizeRequests().anyRequest().fullyAuthenticated().and().httpBasic();
 		// http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated().and().authorizeRequests().antMatchers("/meetings").permitAll().anyRequest().authenticated().and().authorizeRequests().antMatchers("/rooms").permitAll().anyRequest().authenticated();

@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import com.meetings.conferent.model.Meeting;
-import com.meetings.conferent.model.Room;
 
 @Repository
 public class MeetingDAO implements IMeetingDAO {
@@ -73,7 +72,7 @@ public class MeetingDAO implements IMeetingDAO {
 		query.setParameter("endDate", endDate);
 		query.setParameter("isStarted", isStarted);
 		query.setParameter("id", id);
-		int result = query.executeUpdate();
+		query.executeUpdate();
 	}
 
 	@Override

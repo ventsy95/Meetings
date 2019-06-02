@@ -1,14 +1,11 @@
 package com.meetings.conferent.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meetings.conferent.dao.RoomDAO;
 import com.meetings.conferent.dao.SiteDAO;
-import com.meetings.conferent.model.Room;
 import com.meetings.conferent.model.Site;
 
 @Service

@@ -1,6 +1,5 @@
 package com.meetings.conferent.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meetings.conferent.model.Site;
-import com.meetings.conferent.service.RoomService;
 import com.meetings.conferent.service.SiteService;
 
 @CrossOrigin
@@ -23,7 +21,7 @@ public class SiteController {
 
 	@Autowired
 	private SiteService siteService;
-	
+
 	@GetMapping("/sites")
 	List<Site> allSites() {
 		return siteService.getAllSites();
@@ -31,8 +29,8 @@ public class SiteController {
 
 	@PostMapping("/sites")
 	Object newSite(@RequestBody Site site) {
-			siteService.insert(site);
-			return site;
+		siteService.insert(site);
+		return site;
 	}
 
 	@PutMapping("/sites")
@@ -47,4 +45,3 @@ public class SiteController {
 		return siteId;
 	}
 }
-

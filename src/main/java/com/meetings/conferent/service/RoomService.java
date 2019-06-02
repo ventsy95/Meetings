@@ -1,15 +1,11 @@
 package com.meetings.conferent.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meetings.conferent.dao.MeetingDAO;
 import com.meetings.conferent.dao.RoomDAO;
-import com.meetings.conferent.model.Meeting;
 import com.meetings.conferent.model.Room;
 
 @Service
@@ -25,7 +21,7 @@ public class RoomService {
 		roomDao.updateRoom(room);
 		roomDao.closeCurrentSessionWithTransaction();
 	}
-	
+
 	public void updateRoomOccupationById(long id, boolean isPicked) {
 		roomDao.openCurrentSessionWithTransaction();
 		roomDao.updateRoomOccupationById(id, isPicked);

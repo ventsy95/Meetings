@@ -13,11 +13,15 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ROOM", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "name") })
+@Table(name = "ROOM", uniqueConstraints = { @UniqueConstraint(columnNames = "id"),
+		@UniqueConstraint(columnNames = "name") })
 public class Room implements Serializable {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4082332416548117217L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, updatable = false, nullable = false)
@@ -25,17 +29,17 @@ public class Room implements Serializable {
 
 	@Column(name = "name", unique = true)
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "siteId")
 	private Site site;
-	
+
 	@Column(name = "location")
 	private String location;
-	
+
 	@Column(name = "isPicked")
 	private boolean isPicked;
-	
+
 	public Room() {
 		super();
 	}
